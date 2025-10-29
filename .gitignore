@@ -1,0 +1,24 @@
+# Fichier : assistant-virtuel-educatif/.gitignore
+
+# 1. DOCKER/ENVIRONNEMENT
+# Exclut les volumes Docker locaux
+postgres_data
+es_data
+
+# Exclut les fichiers de logs du système
+*.log
+
+# 2. FRONTEND (chatbot-frontend)
+/chatbot-frontend/node_modules
+/chatbot-frontend/build
+
+# 3. BACKEND RASA (chatbot-rasa-backend)
+/chatbot-rasa-backend/venv
+/chatbot-action-server/.venv
+chatbot-rasa-backend/.cache
+chatbot-rasa-backend/.rasa/.cache
+/chatbot-rasa-backend/models # IMPORTANT: Modèle entrainé Rasa
+
+# 4. ACTION SERVER (chatbot-action-server)
+/chatbot-action-server/venv
+/chatbot-rasa-backend/.venv

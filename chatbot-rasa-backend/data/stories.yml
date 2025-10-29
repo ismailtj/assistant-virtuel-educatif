@@ -1,0 +1,10 @@
+# Fichier : chatbot-rasa-backend/data/stories.yml
+
+version: "3.1"
+stories:
+  - story: happy path (chemin de base)
+    steps:
+      - intent: greet           # L'utilisateur dit 'bonjour' (de nlu.yml)
+      - action: utter_greet     # Le bot répond (de domain.yml)
+      - intent: goodbye         # L'utilisateur dit 'au revoir'
+      - action: utter_goodbye   # Le bot répond

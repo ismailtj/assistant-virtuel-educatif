@@ -1,0 +1,18 @@
+# Fichier : chatbot-rasa-backend/data/nlu.yml
+version: "3.1"
+nlu:
+  - intent: greet
+    examples: |
+      - bonjour
+      - salut l'assistant
+      - hello
+      - hi
+      - good morning
+      - coucou
+      
+  - intent: demander_horaires
+    examples: |
+      - Quels sont les horaires d'ouverture ?
+      - Je cherche l'horaire de l'accueil
+      - What are the opening hours?
+      - I need to know the desk schedule

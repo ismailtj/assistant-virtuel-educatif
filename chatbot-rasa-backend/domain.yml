@@ -1,0 +1,26 @@
+# Fichier : chatbot-rasa-backend/domain.yml
+
+version: "3.1"
+
+# 1. INTENTIONS (Ce que l'utilisateur veut faire)
+intents:
+  - greet           # Bonjour/Hello
+  - goodbye         # Au revoir/Bye
+  - demander_horaires # Exemple de future intention
+  
+# 2. ACTIONS (Ce que le bot peut faire)
+actions:
+  - utter_greet         # Répondre bonjour
+  - utter_goodbye       # Dire au revoir
+  - action_hello_world  # L'action personnalisée de test
+
+# 3. RÉPONSES (Les messages que le bot envoie)
+responses:
+  utter_greet:
+  - text: "Bonjour ! Je suis l'Assistant Virtuel. Comment puis-je vous aider ?"
+  utter_goodbye:
+  - text: "Au revoir et bonne journée !"
+
+# 4. FORMES ET ENTITÉS (Seront ajoutés plus tard)
+# forms:
+# entities:

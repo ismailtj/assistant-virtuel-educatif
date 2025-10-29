@@ -1,0 +1,30 @@
+# Fichier : chatbot-rasa-backend/config.yml - CORRIGÉ FINAL
+
+language: fr 
+recipe: default.v1 
+assistant_id: votre_assistant_educatif
+
+# --- SECTION 1 : COMPRÉHENSION DU LANGAGE (NLU) ---
+pipeline:
+  # 1. AJOUT : Tokenizer simple pour séparer les mots (requis par LaBSE)
+- name: WhitespaceTokenizer
+  
+  # 2. Featurizer : Transforme les mots en vecteurs multilingues (LaBSE)
+- name: LanguageModelFeaturizer
+  model_name: "bert"
+  model_weights: "rasa/LaBSE"
+  cache_dir: "./.cache"
+
+  # 3. Classificateur : Utilise ces vecteurs pour classer l'intention
+- name: DIETClassifier
+  epochs: 100
+  constrain_similarities: true
+
+# --- SECTION 2 : GESTION DU DIALOGUE (POLICIES) ---
+policies:
+  - name: RulePolicy
+  - name: TEDPolicy
+    max_history: 5
+    epochs: 100
+    constrain_similarities: true
+  - name: MemoizationPolicy

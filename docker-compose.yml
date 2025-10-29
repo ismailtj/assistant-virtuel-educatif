@@ -1,0 +1,71 @@
+# Fichier : assistant-virtuel-educatif/docker-compose.yml
+
+# version: '3.8'
+services:
+
+  # 1. Base de Données (PostgreSQL) - Pour Logs et Metadata
+  db:
+    image: postgres:14-alpine
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: rasa_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+
+  # 2. Base de Connaissances (Elasticsearch) - Pour le Retrieval
+  es:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.6
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+
+  # 3. Rasa Backend (NLP Core)
+  rasa:
+    build: 
+      context: ./chatbot-rasa-backend # Indique où trouver le Dockerfile
+    container_name: rasa_core
+    volumes:
+      - ./chatbot-rasa-backend:/app # Montage du code local
+    ports:
+      - "5005:5005"
+    command: ["run", "--enable-api", "--port", "5005"] # Lance le serveur Rasa
+    depends_on:
+      - db
+      - es
+      # - action_server
+    # environment:
+    #   # Configuration du Tracker Store Rasa vers la BDD
+    #   RASA_TRACKER_STORE: SQL
+    #   RASA_DB_URL: postgresql://user:password@db:5432/rasa_db
+      
+  # 4. Action Server (API Python/Flask)
+  action_server:
+    build:
+      context: ./chatbot-action-server
+    container_name: action_server_flask
+    volumes:
+      - ./chatbot-action-server:/app
+    ports:
+      - "5055:5055"
+    command: ["rasa", "run", "actions", "--port", "5055"] # Lance le serveur d'actions Rasa
+    depends_on:
+      - rasa
+      - db
+    
+volumes:
+  postgres_data:
+  es_data:

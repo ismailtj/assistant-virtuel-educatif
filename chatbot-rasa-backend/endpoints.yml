@@ -1,0 +1,13 @@
+# Fichier : endpoints.yml
+
+# 1. Connexion à l'Action Server (Flask)
+action_endpoint:
+  url: "http://action_server:5055/webhook" # Utilisation du nom de service Docker
+
+# 2. Connexion au Tracker Store (PostgreSQL)
+tracker_store:
+  type: sql
+  url: postgresql://user:password@db:5432/rasa_db # Utilisation du nom de service Docker
+  
+# 3. Connexion à la base de Connaissances (Elasticsearch)
+# (Ceci sera utilisé plus tard par une Custom Action ou un Component Rasa)
