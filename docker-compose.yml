@@ -42,7 +42,14 @@ services:
       - ./chatbot-rasa-backend:/app # Montage du code local
     ports:
       - "5005:5005"
-    command: ["run", "--enable-api", "--port", "5005"] # Lance le serveur Rasa
+    command: [
+        "run", 
+        "--enable-api", 
+        "--port", "5005", 
+        "--credentials", "credentials.yml", 
+        "--endpoints", "endpoints.yml", 
+        "--cors", "*" # <--- AJOUT CRUCIAL POUR LE FRONTEND
+      ] # Lance le serveur Rasa
     depends_on:
       - db
       - es
