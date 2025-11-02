@@ -9,6 +9,14 @@ nlu:
       - hi
       - good morning
       - coucou
+  
+  - intent: goodbye
+    examples: |
+      - au revoir
+      - à bientôt
+      - bye bye
+      - see you later
+      - goodbye
       
   - intent: demander_horaires
     examples: |

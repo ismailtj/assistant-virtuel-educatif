@@ -13,6 +13,7 @@ actions:
   - utter_greet         # Répondre bonjour
   - utter_goodbye       # Dire au revoir
   - action_hello_world  # L'action personnalisée de test
+  - action_get_horaires
 
 # 3. RÉPONSES (Les messages que le bot envoie)
 responses:
