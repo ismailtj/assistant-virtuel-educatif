@@ -17,7 +17,7 @@ function Chat() {
     setMessages((prevMessages) => [...prevMessages, userMessage]);
 
     try {
-      // 1. Appel à l'API Rasa sur le port 5005
+      // Appel à l'API Rasa
       const response = await fetch(RASA_API_URL, {
         method: 'POST',
         headers: {
@@ -28,7 +28,7 @@ function Chat() {
 
       const data = await response.json();
 
-      // 2. Affichage des réponses de Rasa
+      // Affichage des réponses de Rasa
       const rasaResponses = data.map(msg => ({ 
         sender: 'bot', 
         text: msg.text 
@@ -44,32 +44,74 @@ function Chat() {
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '400px', margin: 'auto', border: '1px solid #ccc' }}>
-      <h1>Assistant Virtuel ESIC</h1>
-      <div style={{ height: '300px', overflowY: 'scroll', border: '1px solid #eee', padding: '10px' }}>
+    <div style={{ 
+        padding: '20px', 
+        maxWidth: '500px', 
+        margin: '20px auto', 
+        borderRadius: '10px',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.1)' 
+      }}>
+      <h2 style={{ textAlign: 'center', color: '#0056b3' }}>Assistant Virtuel ESIC 🎓</h2>
+      
+      {/* Fenêtre de Messages */}
+      <div style={{ 
+          height: '400px', 
+          overflowY: 'auto', 
+          border: '1px solid #ddd', 
+          borderRadius: '5px',
+          padding: '10px',
+          marginBottom: '15px',
+          backgroundColor: '#f9f9f9'
+        }}>
         {messages.map((msg, index) => (
-          <div key={index} style={{ textAlign: msg.sender === 'user' ? 'right' : 'left', marginBottom: '10px' }}>
+          <div 
+            key={index} 
+            style={{ 
+              textAlign: msg.sender === 'user' ? 'right' : 'left', 
+              marginBottom: '15px' 
+            }}
+          >
             <span style={{ 
-                background: msg.sender === 'user' ? '#007bff' : '#f1f1f1', 
-                color: msg.sender === 'user' ? 'white' : 'black',
-                padding: '8px', 
-                borderRadius: '10px',
-                display: 'inline-block'
+                background: msg.sender === 'user' ? '#007bff' : '#e0e0e0', 
+                color: msg.sender === 'user' ? 'white' : '#333',
+                padding: '10px 15px', 
+                borderRadius: '18px',
+                borderTopRightRadius: msg.sender === 'user' ? '3px' : '18px',
+                borderTopLeftRadius: msg.sender === 'user' ? '18px' : '3px',
+                display: 'inline-block',
+                maxWidth: '80%',
+                wordWrap: 'break-word',
+                fontSize: '14px'
             }}>
               {msg.text}
             </span>
           </div>
         ))}
       </div>
-      <form onSubmit={sendMessage} style={{ marginTop: '10px' }}>
+      
+      {/* Formulaire d'Envoi */}
+      <form onSubmit={sendMessage} style={{ display: 'flex' }}>
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Tapez votre message..."
-          style={{ width: 'calc(100% - 70px)', padding: '10px' }}
+          placeholder="Posez votre question..."
+          style={{ flexGrow: 1, padding: '10px', borderRadius: '5px 0 0 5px', border: '1px solid #ddd' }}
         />
-        <button type="submit" style={{ padding: '10px', width: '60px' }}>Envoyer</button>
+        <button 
+          type="submit" 
+          style={{ 
+            padding: '10px 15px', 
+            width: '100px', 
+            backgroundColor: '#0056b3', 
+            color: 'white', 
+            border: 'none', 
+            borderRadius: '0 5px 5px 0', 
+            cursor: 'pointer' 
+          }}
+        >
+          Envoyer
+        </button>
       </form>
     </div>
   );
